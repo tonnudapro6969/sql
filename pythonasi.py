@@ -4,6 +4,10 @@ from ttkbootstrap import Style
 from ttkbootstrap.tableview import Tableview
 import sqlite3
 
+
+
+
+connection = sqlite3.connect("epood_tkandmaa.db")
 def delete_row():
     selected_items = dv.get_selected_items()
     if selected_items:
@@ -14,6 +18,7 @@ def delete_row():
                 dv.delete_row(row_id)
                 delete_from_database(row_id)
             show_percentage()
+            dv.load_table_data()  
 
 def delete_from_database(row_id):
     connection = sqlite3.connect('epood_tkandmaa.db')
@@ -34,7 +39,7 @@ def show_percentage():
 
     audi_percentage = (audi_count / total_cars) * 100
 
-    percentage_text.set("Audisi kokku on: {:.2f}%".format( audi_percentage))
+    percentage_text.set("Audisi kokku on: {:.2f}%".format(audi_percentage))
 
     cursor.close()
     connection.close()
@@ -87,7 +92,7 @@ def save_data():
     connection.close()
 
     messagebox.showinfo("Andmete lisamine", "Andmed on edukalt lisatud andmebaasi.")
-    dv.load_table_data()
+    dv.load_table_data()  
     show_percentage()
 
 root = tk.Tk()
@@ -118,7 +123,7 @@ dv = Tableview(
     coldata=l1,
     rowdata=r_set,
     searchable=True,
-    bootstyle='flatly',  # Muuda stiili vastavalt soovile
+    bootstyle='flatly',  
     pagesize=10,
     height=10
 )
@@ -133,4 +138,12 @@ percentage_label = tk.Label(root, textvariable=percentage_text, font=('Arial', 1
 percentage_label.grid(row=3, column=0, padx=10, pady=5)
 show_percentage()
 
+
+#
+#
+
+
+
+
+connection.close()
 root.mainloop()
