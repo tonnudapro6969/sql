@@ -1,15 +1,19 @@
 import tkinter as tk
 from tkinter import messagebox, Toplevel
-from ttkbootstrap import Style
-from ttkbootstrap.tableview import Tableview
 import sqlite3
 
 
 
 
 connection = sqlite3.connect("epood_tkandmaa.db")
+def get_selected_items():
+        selected_rows = dv.get_rows(selected=True)
+        for row in selected_rows:
+            print(row.values[0])
+            return row.values[0]
+        
 def delete_row():
-    selected_items = dv.get_selected_items()
+    selected_items = get_selected_items()
     if selected_items:
         confirmation = messagebox.askyesno("Kustuta rida", "Kas olete kindel, et soovite need read kustutada?")
         if confirmation:
@@ -18,7 +22,7 @@ def delete_row():
                 dv.delete_row(row_id)
                 delete_from_database(row_id)
             show_percentage()
-            dv.load_table_data()  
+            dv.load_table_data()
 
 def delete_from_database(row_id):
     connection = sqlite3.connect('epood_tkandmaa.db')
@@ -98,7 +102,7 @@ def save_data():
 root = tk.Tk()
 root.geometry("800x400")
 root.title("Andmete Haldamine")
-style = Style(theme='darkly')
+
 
 l1 = [
     {"text": "id", "stretch": False},
